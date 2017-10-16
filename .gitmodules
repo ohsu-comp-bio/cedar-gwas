@@ -1,0 +1,9 @@
+[submodule "tools/birdsuite"]
+	path = tools/birdsuite
+	url = https://github.com/ohsu-comp-bio/birdsuite
+[submodule "tools/pbwt"]
+	path = tools/pbwt
+	url = https://github.com/ohsu-comp-bio/pbwt
+[submodule "tools/Eagle"]
+	path = tools/Eagle
+	url = https://github.com/ohsu-comp-bio/Eagle
