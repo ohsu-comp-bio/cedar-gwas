@@ -7,3 +7,9 @@
 [submodule "tools/Eagle"]
 	path = tools/Eagle
 	url = https://github.com/ohsu-comp-bio/Eagle
+[submodule "tools/hapi-ur"]
+	path = tools/hapi-ur
+	url = https://github.com/ohsu-comp-bio/hapi-ur
+[submodule "tools/Minimac3"]
+	path = tools/Minimac3
+	url = https://github.com/ohsu-comp-bio/Minimac3
