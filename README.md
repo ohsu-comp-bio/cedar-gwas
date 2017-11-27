@@ -1,4 +1,4 @@
-# CEDaR GWAS
+# CEDAR GWAS
 Tools for genotyping, phasing, and imputing for Genome-wide Association Studies.
 
 ## Genotyping and Copy number analysis
