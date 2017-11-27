@@ -11,4 +11,4 @@ ENV PATH=/opt/cedar-gwas/scripts:$PATH
 VOLUME /inputs
 VOLUME /work
 WORKDIR /work
-EXEC ["run_birdsuite.py"]
+ENTRYPOINT ["run_birdsuite.py"]
