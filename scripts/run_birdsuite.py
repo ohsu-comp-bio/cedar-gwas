@@ -7,8 +7,8 @@ import subprocess
 import glob
 
 def build_cmd():
-    celFiles = os.path.join(args.inputsDir,args.celFiles)
-    genderFile = os.path.join(args.inputsDir,args.genderFile)
+    celFiles = os.path.join(args.workDir,args.celFiles)
+    genderFile = os.path.join(args.workDir,args.genderFile)
 
     cmd = ["birdsuite.sh", "--basename=" + basename, "--celFiles=" + celFiles, "--genderFile=" + 
     genderFile, "--chipType=" + args.chipType, "--canary.priors=" + args.canaryPriors, 
@@ -24,24 +24,28 @@ def build_cmd():
 
     return cmd
 
-def write_inputs(inputsDir,response,cels,gender):
+def write_inputs(workDir,response,cels,gender):
     response = json.load(open(response))
     hits = response['data']['hits']
 
-    c = open(os.path.join(inputsDir,cels), "w")
-    g = open(os.path.join(inputsDir,gender), "w")
+    c = open(os.path.join(workDir,cels), "w")
+    g = open(os.path.join(workDir,gender), "w")
 
     c.write("cel_files\n")
     g.write("gender\n")
 
     for hit in hits:
-        c.write(os.path.join(inputsDir,hit['file_name']) + "\n")
-        if hit['cases'][0]['demographic']['gender'] == 'female':
-            g.write("0\n")
-        elif hit['cases'][0]['demographic']['gender'] == 'male':
-            g.write("1\n")
+        cel = glob.glob("./*/" + hit['file_name'])[0]
+        if os.path.exists(cel):
+            c.write(os.path.abs(cel) + "\n")
+            if hit['cases'][0]['demographic']['gender'] == 'female':
+                g.write("0\n")
+            elif hit['cases'][0]['demographic']['gender'] == 'male':
+                g.write("1\n")
+            else:
+                g.write("2\n")
         else:
-            g.write("2\n")
+            raise OSError("No file exists for %s" % (cel))
 
     c.close()
     g.close()
@@ -64,7 +68,7 @@ if __name__ == "__main__":
     args = parser.add_argument("--lastStep", default=12)
     args = parser.add_argument("--exeDir", default="/opt/birdsuite/bin")
     args = parser.add_argument("--metadataDir", default="/opt/metadata")
-    args = parser.add_argument("--inputsDir", default="/opt/inputs")
+    args = parser.add_argument("--workDir", default="/work")
     args = parser.parse_args()
 
     if args.basename:
@@ -78,15 +82,9 @@ if __name__ == "__main__":
     tar.extractall()
     tar.close()
 
-    # Move to inputs dir
-    print "Moving files to inputs dir"
-    cels = glob.glob("./*/*.CEL")
-    for cel in cels:
-        os.rename(os.path.abspath(cel),os.path.join(args.inputsDir,os.path.basename(cel)))
-
     # Write input files
     print "Writing cels and gender files"
-    write_inputs(args.inputsDir, args.response, args.celFiles, args.genderFile)
+    write_inputs(args.workDir, args.response, args.celFiles, args.genderFile)
 
     # Run birdsuite
     cmd = build_cmd()
