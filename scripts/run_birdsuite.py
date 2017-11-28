@@ -37,7 +37,7 @@ def write_inputs(workDir,response,cels,gender):
     for hit in hits:
         cel = glob.glob("./*/" + hit['file_name'])[0]
         if os.path.exists(cel):
-            c.write(os.path.abs(cel) + "\n")
+            c.write(os.path.abspath(cel) + "\n")
             if hit['cases'][0]['demographic']['gender'] == 'female':
                 g.write("0\n")
             elif hit['cases'][0]['demographic']['gender'] == 'male':
