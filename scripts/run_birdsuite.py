@@ -89,5 +89,5 @@ if __name__ == "__main__":
     # Run birdsuite
     cmd = build_cmd()
     print "Running Birdsuite\n%s" % (" ".join(cmd))
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    proc.communicate()
+    proc = subprocess.Popen(cmd)
+    proc.wait()
