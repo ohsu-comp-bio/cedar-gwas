@@ -37,14 +37,15 @@ def write_inputs(workDir,response,cels,gender):
     for hit in hits:
         cel = glob.glob("./*/" + hit['file_name'])[0]
         if os.path.exists(cel):
-            c.write(os.path.abspath(cel) + "\n")
-            if 'demographic' in hit['cases'][0]:
-                if hit['cases'][0]['demographic']['gender'] == 'female':
-                    g.write("0\n")
-                elif hit['cases'][0]['demographic']['gender'] == 'male':
-                    g.write("1\n")
-            else:
-                g.write("2\n")
+            if 'cases' in hit:
+                c.write(os.path.abspath(cel) + "\n")
+                if 'demographic' in hit['cases'][0]:
+                    if hit['cases'][0]['demographic']['gender'] == 'female':
+                        g.write("0\n")
+                    elif hit['cases'][0]['demographic']['gender'] == 'male':
+                        g.write("1\n")
+                else:
+                    g.write("2\n")
         else:
             raise OSError("No file exists for %s" % (cel))
 
