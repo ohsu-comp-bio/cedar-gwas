@@ -1,4 +1,4 @@
-FROM ubuntu:16.06
+FROM ubuntu:16.04
 
 RUN apt-get update && \ 
     apt-get install -y build-essential git openjdk-8-jdk python wget
@@ -6,7 +6,7 @@ RUN apt-get update && \
 WORKDIR /opt
 
 #Install GATK4
-RUN git clone https://github.com/broadinstitute/gatk.git 
+RUN git clone https://github.com/broadinstitute/gatk.git && \ 
     cd gatk && \
      ./gradlew localJar
 
