@@ -29,7 +29,7 @@ def run(args):
     for res in query:
         if res.variant.data.alternateBases != res.variant.data.referenceBases:
             if res.cel.data.individual_barcode not in sample_mutation_status:
-                sample_mutation_status[res.cel.data.individual_barcode] = 1
+                sample_mutation_status[res.cel.data.individual_barcode] = 2
 
     query = O.query().V().where(aql.eq("_label", "CELFile"))
     if args.project is not None:
@@ -37,7 +37,7 @@ def run(args):
 
     for res in query:
         if res.data.individual_barcode not in sample_mutation_status:
-            sample_mutation_status[res.data.individual_barcode] = 0
+            sample_mutation_status[res.data.individual_barcode] = 1
     
     for k in sample_mutation_status:
         print(k, k, sample_mutation_status[k], sep="\t")
